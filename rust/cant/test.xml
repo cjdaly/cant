@@ -1,0 +1,13 @@
+<cant xmlns="ns">
+    <target name="main">
+        <foo message="test 123..." />
+    </target>
+
+    <macro name="hello">
+        <attribute name="message" />
+        <sequential>
+            <echo>Message: @{x}</echo>
+        </sequential>
+    </macro>
+</cant>
+
