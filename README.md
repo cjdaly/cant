@@ -1,2 +1,2 @@
 # cant
-a reinterpretation of Apache Ant (in go)
+a reinterpretation of Apache Ant
