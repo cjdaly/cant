@@ -15,5 +15,5 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * regular expressions, built-in
 * embedded in XML
 
-My favorite part Ant is the interplay between `<macrodef>` and the concrete XML syntax.  This is the way to do executable XML!
+My favorite aspect of Ant is the interplay between `<macrodef>` and the concrete XML syntax.  This is the way to do executable XML!
 
