@@ -6,7 +6,7 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 
 * __\<target\>__ - dependency satisfaction, like old-school Unix `make`
 * __\<property\>__ - global write-once properties ...
-* __\<local\>__ - ... except when ...
+* __\<local\>__ - ... except when
 * __\<macrodef\>__ - procedural/imperative
 * __\<fileset\>__ - declarative
 * __\<parallel\>__ - concurrency
@@ -15,4 +15,5 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * regular expressions, built-in
 * embedded in XML
 
+My favorite part Ant is the interplay between `<macrodef>` and the concrete XML syntax.  This is the way to do executable XML!
 
