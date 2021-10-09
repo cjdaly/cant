@@ -12,8 +12,9 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * __\<parallel\>__ - concurrency
 * __\<and\>\<or\>\<not\>__ - logic
 * __AntContrib__ - with `<if>`, `<foreach>`, etc...
-* regular expressions, built-in
+* regular expressions, filename patterns
 * embedded in XML
 
 My favorite aspect of Ant is the interplay between `<macrodef>` and the concrete XML syntax.  This is the way to do executable XML!
 
+But there are a lot of loose ends and rough edges.  I want Cant to be like Ant, but cleaned up like it was designed as a multi-paradigm programming language instead of an aggregative hot mess build tool.
