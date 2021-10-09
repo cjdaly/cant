@@ -9,7 +9,8 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * __\<local\>__ - ... except when ...
 * __\<macrodef\>__ - procedural/imperative
 * __\<fileset\>__ - declarative
-* __\<parallel\>__ - concurrent
+* __\<parallel\>__ - concurrency
+* __\<and\>\<or\>\<not\>__ - logic
 * __AntContrib__ - with `<if>`, `<foreach>`, etc...
 * regular expressions, built-in
 * embedded in XML
