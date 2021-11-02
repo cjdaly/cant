@@ -17,19 +17,53 @@ package lang
 
 import (
 	"encoding/xml"
+	"errors"
 	"log"
 	"os"
+	"strings"
 )
 
-func Cant(input string) {
-	file, err := os.Open(input)
-	if err != nil {
-		log.Println("err: ", err)
-	}
+func Cant(inputPath string) {
+	file, f_err := os.Open(inputPath)
 	defer file.Close()
+	if f_err != nil {
+		log.Fatal(f_err)
+	}
 
+	var cant Node
 	decoder := xml.NewDecoder(file)
-	dom(decoder)
+	d_err := decoder.Decode(&cant)
+	if d_err != nil {
+		log.Fatal(d_err)
+	}
+
+	if strings.ToLower(cant.XMLName.Local) != "cant" {
+		log.Fatal(errors.New("Missing <cant> top-level element!"))
+	}
+
+	mainTarget := "main"
+	for _, attr := range cant.Attrs {
+		if attr.Name.Local == "main" {
+			mainTarget = attr.Value
+		}
+	}
+	log.Println("main target: " + mainTarget)
+
+	// var g G
+	for _, node := range cant.Nodes {
+		if strings.ToLower(node.XMLName.Local) == "target" {
+
+		} else if strings.ToLower(node.XMLName.Local) == "property" {
+
+		}
+	}
+
+	// dom(decoder)
+}
+
+type G struct {
+	Targets    map[string]Node
+	Properties map[string]Node
 }
 
 // https://stackoverflow.com/questions/30256729/how-to-traverse-through-xml-data-in-golang

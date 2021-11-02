@@ -1,5 +1,5 @@
-<cant main="foo">
-    <target name="foo">
+<wont main="main">
+    <target name="main">
         <foo />
         <foo message="test 123..." />
     </target>
@@ -10,5 +10,5 @@
             <echo>Message: @{x}</echo>
         </sequential>
     </macro>
-</cant>
+</wont>
 
