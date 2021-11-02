@@ -42,9 +42,9 @@ func dom(decoder *xml.Decoder) {
 	}
 
 	walk([]Node{n}, func(n Node) bool {
-		log.Println(n.XMLName)
+		log.Println(n.XMLName.Local)
 		for _, a := range n.Attrs {
-			log.Println(a.Name, " = ", a.Value)
+			log.Println(a.Name.Local, " = ", a.Value)
 		}
 		return true
 	})
