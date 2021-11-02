@@ -1,10 +1,11 @@
-<cant>
+<cant main="main">
     <target name="main">
+        <foo />
         <foo message="test 123..." />
     </target>
 
     <macro name="hello">
-        <attribute name="message" />
+        <attribute name="message" default="Hello!"/>
         <sequential>
             <echo>Message: @{x}</echo>
         </sequential>
