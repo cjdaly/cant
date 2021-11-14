@@ -13,4 +13,24 @@
  * limitations under the License.
  */
 
-package lang
+package task
+
+import (
+	out "cantlang.org/cant/output"
+)
+
+func evalCant(t *TaskInst, c *Context) {
+	mainTarget := "main"
+	for _, attr := range t.node.Attrs {
+		if attr.Name.Local == "main" {
+			mainTarget = attr.Value
+		}
+	}
+	out.Logln("main target: " + mainTarget)
+
+	for _, node := range t.node.Nodes {
+		out.Logln("  stuff : " + node.XMLName.Local)
+	}
+}
+
+var TaskDefn_Cant = TaskDefn{"cant", evalCant}

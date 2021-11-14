@@ -14,3 +14,9 @@
  */
 
 package task
+
+func evalProperty(t *TaskInst, c *Context) {
+
+}
+
+var TaskDefn_Property = TaskDefn{"property", evalTarget}

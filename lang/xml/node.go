@@ -13,22 +13,42 @@
  * limitations under the License.
  */
 
-package main
+package xml
 
 import (
+	"encoding/xml"
 	"errors"
 	"os"
 
-	lang "cantlang.org/cant/lang"
 	out "cantlang.org/cant/output"
 )
 
-func main() {
-	if len(os.Args) < 2 {
-		out.LogFatal(errors.New("Missing input file argument!"))
+// https://stackoverflow.com/questions/30256729/how-to-traverse-through-xml-data-in-golang
+
+type Node struct {
+	XMLName xml.Name
+	Attrs   []xml.Attr `xml:",any,attr"`
+	Content []byte     `xml:",innerxml"`
+	Nodes   []Node     `xml:",any"`
+}
+
+func Load(inputPath string) Node {
+	file, f_err := os.Open(inputPath)
+	defer file.Close()
+	if f_err != nil {
+		out.LogFatal(f_err)
 	}
 
-	arg1 := os.Args[1]
-	out.Logln("input: " + arg1)
-	lang.Cant(arg1)
+	var cant Node
+	decoder := xml.NewDecoder(file)
+	d_err := decoder.Decode(&cant)
+	if d_err != nil {
+		out.LogFatal(d_err)
+	}
+
+	if cant.XMLName.Local != "cant" {
+		out.LogFatal(errors.New("Missing <cant> top-level element!"))
+	}
+
+	return cant
 }

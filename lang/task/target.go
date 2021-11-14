@@ -14,3 +14,9 @@
  */
 
 package task
+
+func evalTarget(t *TaskInst, c *Context) {
+
+}
+
+var TaskDefn_Target = TaskDefn{"target", evalTarget}

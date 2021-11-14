@@ -13,22 +13,48 @@
  * limitations under the License.
  */
 
-package main
+package task
 
 import (
-	"errors"
-	"os"
-
-	lang "cantlang.org/cant/lang"
-	out "cantlang.org/cant/output"
+	xml "cantlang.org/cant/lang/xml"
 )
 
-func main() {
-	if len(os.Args) < 2 {
-		out.LogFatal(errors.New("Missing input file argument!"))
-	}
+type Task interface {
+	Name() string
+	Attr(name string) string
+}
 
-	arg1 := os.Args[1]
-	out.Logln("input: " + arg1)
-	lang.Cant(arg1)
+type TaskInst struct {
+	node *xml.Node
+}
+
+func NewTask(node *xml.Node) TaskInst {
+	return TaskInst{node}
+}
+
+func (t TaskInst) Name() string {
+	return t.node.XMLName.Local
+}
+
+func (t TaskInst) Attr(name string) string {
+	for _, attr := range t.node.Attrs {
+		if attr.Name.Local == name {
+			return attr.Value
+		}
+	}
+	return ""
+}
+
+///
+
+type TaskDefn struct {
+	Name string
+	Eval func(*TaskInst, *Context)
+}
+
+///
+
+type Context struct {
+	Parent *Context
+	Locals map[string]string
 }

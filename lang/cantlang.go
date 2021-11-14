@@ -16,85 +16,24 @@
 package lang
 
 import (
-	"encoding/xml"
-	"errors"
-	"log"
-	"os"
-	"strings"
+	task "cantlang.org/cant/lang/task"
+	xml "cantlang.org/cant/lang/xml"
 )
 
 func Cant(inputPath string) {
-	file, f_err := os.Open(inputPath)
-	defer file.Close()
-	if f_err != nil {
-		log.Fatal(f_err)
-	}
 
-	var cant Node
-	decoder := xml.NewDecoder(file)
-	d_err := decoder.Decode(&cant)
-	if d_err != nil {
-		log.Fatal(d_err)
-	}
+	var reg = make(map[string]*task.TaskDefn)
+	reg["cant"] = &task.TaskDefn_Cant
+	reg["echo"] = &task.TaskDefn_Echo
+	reg["property"] = &task.TaskDefn_Property
+	reg["sleep"] = &task.TaskDefn_Sleep
+	reg["target"] = &task.TaskDefn_Target
 
-	if strings.ToLower(cant.XMLName.Local) != "cant" {
-		log.Fatal(errors.New("Missing <cant> top-level element!"))
-	}
+	var cant = xml.Load(inputPath)
+	var cantTask = task.NewTask(&cant)
 
-	mainTarget := "main"
-	for _, attr := range cant.Attrs {
-		if attr.Name.Local == "main" {
-			mainTarget = attr.Value
-		}
-	}
-	log.Println("main target: " + mainTarget)
+	var c = task.Context{}
+	var eval = reg[cantTask.Name()].Eval
+	eval(&cantTask, &c)
 
-	// var g G
-	for _, node := range cant.Nodes {
-		if strings.ToLower(node.XMLName.Local) == "target" {
-
-		} else if strings.ToLower(node.XMLName.Local) == "property" {
-
-		}
-	}
-
-	// dom(decoder)
-}
-
-type G struct {
-	Targets    map[string]Node
-	Properties map[string]Node
-}
-
-// https://stackoverflow.com/questions/30256729/how-to-traverse-through-xml-data-in-golang
-
-type Node struct {
-	XMLName xml.Name
-	Attrs   []xml.Attr `xml:",any,attr"`
-	Content []byte     `xml:",innerxml"`
-	Nodes   []Node     `xml:",any"`
-}
-
-func walk(nodes []Node, f func(Node) bool) {
-	for _, n := range nodes {
-		if f(n) {
-			walk(n.Nodes, f)
-		}
-	}
-}
-
-func dom(decoder *xml.Decoder) {
-	var n Node
-	err := decoder.Decode(&n)
-	if err != nil {
-		panic(err)
-	}
-
-	walk([]Node{n}, func(n Node) bool {
-		log.Println(n.XMLName.Local)
-		for _, a := range n.Attrs {
-			log.Println(a.Name.Local, " = ", a.Value)
-		}
-		return true
-	})
 }

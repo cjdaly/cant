@@ -16,15 +16,37 @@
 package task
 
 import (
+	"strconv"
+	"time"
+
 	out "cantlang.org/cant/output"
 )
 
-func evalEcho(t *TaskInst, c *Context) {
+func evalSleep(t *TaskInst, c *Context) {
+	var hours, minutes, seconds, milliseconds int
 	for _, attr := range t.node.Attrs {
-		if attr.Name.Local == "message" {
-			out.Println(attr.Value)
+		switch attr.Name.Local {
+		case "hours":
+			hours, _ = strconv.Atoi(attr.Value)
+		case "minutes":
+			minutes, _ = strconv.Atoi(attr.Value)
+		case "seconds":
+			seconds, _ = strconv.Atoi(attr.Value)
+		case "milliseconds":
+			milliseconds, _ = strconv.Atoi(attr.Value)
+		}
+
+		if attr.Name.Local == "main" {
 		}
 	}
+
+	var sleepTime = (hours * 60 * 60 * 1000) +
+		(minutes * 60 * 1000) +
+		(seconds * 1000) +
+		milliseconds
+
+	out.Logln("Sleep for " + strconv.Itoa(sleepTime) + "milliseconds")
+	time.Sleep(time.Duration(sleepTime) * time.Millisecond)
 }
 
-var TaskDefn_Echo = TaskDefn{"echo", evalTarget}
+var TaskDefn_Sleep = TaskDefn{"sleep", evalTarget}

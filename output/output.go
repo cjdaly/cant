@@ -13,22 +13,25 @@
  * limitations under the License.
  */
 
-package main
+package output
 
 import (
-	"errors"
-	"os"
-
-	lang "cantlang.org/cant/lang"
-	out "cantlang.org/cant/output"
+	"fmt"
+	"log"
 )
 
-func main() {
-	if len(os.Args) < 2 {
-		out.LogFatal(errors.New("Missing input file argument!"))
-	}
+func init() {
+	log.SetPrefix("CANT: ")
+}
 
-	arg1 := os.Args[1]
-	out.Logln("input: " + arg1)
-	lang.Cant(arg1)
+func Logln(message string) {
+	log.Println(message)
+}
+
+func LogFatal(err error) {
+	log.Fatal(err)
+}
+
+func Println(message string) {
+	fmt.Println(message)
 }
