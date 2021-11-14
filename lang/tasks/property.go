@@ -13,18 +13,14 @@
  * limitations under the License.
  */
 
-package task
+package tasks
 
 import (
-	out "cantlang.org/cant/output"
+	env "cantlang.org/cant/lang/env"
 )
 
-func evalEcho(t *TaskInst, c *Context) {
-	for _, attr := range t.node.Attrs {
-		if attr.Name.Local == "message" {
-			out.Println(attr.Value)
-		}
-	}
-}
+var TaskDefn_Property = env.NewTaskDefn("property", eval_Property)
 
-var TaskDefn_Echo = TaskDefn{"echo", evalTarget}
+func eval_Property(t *env.TaskInst, c *env.Context) {
+
+}

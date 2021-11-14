@@ -13,10 +13,14 @@
  * limitations under the License.
  */
 
-package task
+package tasks
 
-func evalProperty(t *TaskInst, c *Context) {
+import (
+	env "cantlang.org/cant/lang/env"
+)
+
+var TaskDefn_Target = env.NewTaskDefn("target", eval_Target)
+
+func eval_Target(t *env.TaskInst, c *env.Context) {
 
 }
-
-var TaskDefn_Property = TaskDefn{"property", evalTarget}

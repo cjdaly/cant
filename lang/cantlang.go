@@ -16,24 +16,26 @@
 package lang
 
 import (
-	task "cantlang.org/cant/lang/task"
+	env "cantlang.org/cant/lang/env"
+	tasks "cantlang.org/cant/lang/tasks"
 	xml "cantlang.org/cant/lang/xml"
 )
 
 func Cant(inputPath string) {
+	var cantNode = xml.Load(inputPath)
+	var cantTask = env.NewTask(&cantNode)
+	var context = env.NewRootContext(newTaskRegistry())
+	env.Eval(&cantTask, &context)
+}
 
-	var reg = make(map[string]*task.TaskDefn)
-	reg["cant"] = &task.TaskDefn_Cant
-	reg["echo"] = &task.TaskDefn_Echo
-	reg["property"] = &task.TaskDefn_Property
-	reg["sleep"] = &task.TaskDefn_Sleep
-	reg["target"] = &task.TaskDefn_Target
+func newTaskRegistry() map[string]*env.TaskDefn {
+	var reg = make(map[string]*env.TaskDefn)
 
-	var cant = xml.Load(inputPath)
-	var cantTask = task.NewTask(&cant)
+	reg["cant"] = &tasks.TaskDefn_Cant
+	reg["echo"] = &tasks.TaskDefn_Echo
+	reg["property"] = &tasks.TaskDefn_Property
+	reg["sleep"] = &tasks.TaskDefn_Sleep
+	reg["target"] = &tasks.TaskDefn_Target
 
-	var c = task.Context{}
-	var eval = reg[cantTask.Name()].Eval
-	eval(&cantTask, &c)
-
+	return reg
 }

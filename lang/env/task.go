@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package task
+package env
 
 import (
 	xml "cantlang.org/cant/lang/xml"
@@ -25,7 +25,7 @@ type Task interface {
 }
 
 type TaskInst struct {
-	node *xml.Node
+	Node *xml.Node
 }
 
 func NewTask(node *xml.Node) TaskInst {
@@ -33,11 +33,11 @@ func NewTask(node *xml.Node) TaskInst {
 }
 
 func (t TaskInst) Name() string {
-	return t.node.XMLName.Local
+	return t.Node.XMLName.Local
 }
 
 func (t TaskInst) Attr(name string) string {
-	for _, attr := range t.node.Attrs {
+	for _, attr := range t.Node.Attrs {
 		if attr.Name.Local == name {
 			return attr.Value
 		}
@@ -47,14 +47,14 @@ func (t TaskInst) Attr(name string) string {
 
 ///
 
+type EvalFunc func(t *TaskInst, c *Context)
+
 type TaskDefn struct {
 	Name string
-	Eval func(*TaskInst, *Context)
+	//Eval func(t *TaskInst, c *Context)
+	Eval EvalFunc
 }
 
-///
-
-type Context struct {
-	Parent *Context
-	Locals map[string]string
+func NewTaskDefn(name string, eval EvalFunc) TaskDefn {
+	return TaskDefn{name, eval}
 }

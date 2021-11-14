@@ -13,18 +13,21 @@
  * limitations under the License.
  */
 
-package task
+package tasks
 
 import (
 	"strconv"
 	"time"
 
+	env "cantlang.org/cant/lang/env"
 	out "cantlang.org/cant/output"
 )
 
-func evalSleep(t *TaskInst, c *Context) {
+var TaskDefn_Sleep = env.NewTaskDefn("sleep", eval_Sleep)
+
+func eval_Sleep(t *env.TaskInst, c *env.Context) {
 	var hours, minutes, seconds, milliseconds int
-	for _, attr := range t.node.Attrs {
+	for _, attr := range t.Node.Attrs {
 		switch attr.Name.Local {
 		case "hours":
 			hours, _ = strconv.Atoi(attr.Value)
@@ -48,5 +51,3 @@ func evalSleep(t *TaskInst, c *Context) {
 	out.Logln("Sleep for " + strconv.Itoa(sleepTime) + "milliseconds")
 	time.Sleep(time.Duration(sleepTime) * time.Millisecond)
 }
-
-var TaskDefn_Sleep = TaskDefn{"sleep", evalTarget}
