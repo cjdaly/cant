@@ -8,7 +8,7 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * __\<target\>__ - dependency satisfaction, like old-school Unix `make`
 * __\<property\>__ - global write-once properties ...
 * __\<local\>__ - ... except when
-* __\<macrodef\>__ - procedural/imperative
+* __\<macrodef\>__ - procedural/imperative(attrs) ; structural/declarative(elements)
 * __\<taskdef\>__ - host language extensions
 * __\<fileset\>__ - declarative
 * __\<parallel\>__ - concurrency
