@@ -13,7 +13,7 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * __\<fileset\>__ - declarative
 * __\<parallel\>__ - concurrency
 * __\<and\>\<or\>\<not\>__ - logic
-* __AntContrib__ - with `<if>`, `<foreach>`, etc...
+* __[AntContrib](http://ant-contrib.sourceforge.net/tasks/tasks/index.html)__ - with `<if>`, `<foreach>`, etc...
 * regular expressions, filename patterns
 * embedded in XML
 
