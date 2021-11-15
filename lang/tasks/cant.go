@@ -16,6 +16,8 @@
 package tasks
 
 import (
+	"errors"
+
 	env "cantlang.org/cant/lang/env"
 	out "cantlang.org/cant/output"
 )
@@ -23,15 +25,27 @@ import (
 var TaskDefn_Cant = env.NewTaskDefn("cant", eval_Cant)
 
 func eval_Cant(t *env.TaskInst, c *env.Context) {
-	mainTarget := "main"
+	mainTargetName := "main"
 	for _, attr := range t.Node.Attrs {
 		if attr.Name.Local == "main" {
-			mainTarget = attr.Value
+			mainTargetName = attr.Value
 		}
 	}
-	out.Logln("main target: " + mainTarget)
+	out.Logln("main target: " + mainTargetName)
 
 	for _, node := range t.Node.Nodes {
-		out.Logln("  stuff : " + node.XMLName.Local)
+		switch node.XMLName.Local {
+		case "property":
+			c.AddProperty(env.NewTask(node))
+		case "target":
+			c.AddTarget(env.NewTask(node))
+		}
+	}
+
+	mainTarget := c.GetTarget(mainTargetName)
+	if mainTarget == nil {
+		out.LogFatal(errors.New("main target not found: " + mainTargetName))
+	} else {
+		env.Eval(mainTarget, c)
 	}
 }

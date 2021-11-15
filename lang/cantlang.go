@@ -23,9 +23,10 @@ import (
 
 func Cant(inputPath string) {
 	var cantNode = xml.Load(inputPath)
-	var cantTask = env.NewTask(&cantNode)
-	var context = env.NewRootContext(newTaskRegistry())
-	env.Eval(&cantTask, &context)
+	var cantTask = env.NewTask(cantNode)
+	var globals = env.NewGlobals(newTaskRegistry())
+	var context = globals.NewContext()
+	env.Eval(cantTask, context)
 }
 
 func newTaskRegistry() map[string]*env.TaskDefn {

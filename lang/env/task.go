@@ -25,18 +25,18 @@ type Task interface {
 }
 
 type TaskInst struct {
-	Node *xml.Node
+	Node xml.Node
 }
 
-func NewTask(node *xml.Node) TaskInst {
-	return TaskInst{node}
+func NewTask(node xml.Node) *TaskInst {
+	return &TaskInst{node}
 }
 
-func (t TaskInst) Name() string {
+func (t *TaskInst) Name() string {
 	return t.Node.XMLName.Local
 }
 
-func (t TaskInst) Attr(name string) string {
+func (t *TaskInst) Attr(name string) string {
 	for _, attr := range t.Node.Attrs {
 		if attr.Name.Local == name {
 			return attr.Value
@@ -47,11 +47,8 @@ func (t TaskInst) Attr(name string) string {
 
 ///
 
-type EvalFunc func(t *TaskInst, c *Context)
-
 type TaskDefn struct {
 	Name string
-	//Eval func(t *TaskInst, c *Context)
 	Eval EvalFunc
 }
 

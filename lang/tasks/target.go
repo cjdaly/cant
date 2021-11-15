@@ -17,10 +17,20 @@ package tasks
 
 import (
 	env "cantlang.org/cant/lang/env"
+	out "cantlang.org/cant/output"
 )
 
 var TaskDefn_Target = env.NewTaskDefn("target", eval_Target)
 
 func eval_Target(t *env.TaskInst, c *env.Context) {
+	out.Logln("in target: " + t.Attr("name"))
+	for _, node := range t.Node.Nodes {
+		switch node.XMLName.Local {
+		case "property":
+			c.AddProperty(env.NewTask(node))
+		case "echo", "sleep":
+			env.Eval(env.NewTask(node), c)
+		}
+	}
 
 }

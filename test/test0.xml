@@ -1,0 +1,6 @@
+<cant main="test">
+    <target name="test">
+        <echo message="test 123..." />
+    </target>
+</cant>
+

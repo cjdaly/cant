@@ -13,18 +13,38 @@
  * limitations under the License.
  */
 
-package tasks
+package env
 
-import (
-	env "cantlang.org/cant/lang/env"
-	out "cantlang.org/cant/output"
-)
+///
 
-var TaskDefn_Echo = env.NewTaskDefn("echo", eval_Echo)
+type Globals struct {
+	TaskRegistry map[string]*TaskDefn
+	Properties   map[string]*TaskInst
+	Targets      map[string]*TaskInst
+}
 
-func eval_Echo(t *env.TaskInst, c *env.Context) {
-	message := t.Attr("message")
-	if message != "" {
-		out.Println(message)
+func NewGlobals(taskRegistry map[string]*TaskDefn) *Globals {
+	var g = Globals{
+		taskRegistry,
+		make(map[string]*TaskInst),
+		make(map[string]*TaskInst)}
+	return &g
+}
+
+func (g *Globals) NewContext() *Context {
+	var c = Context{
+		g,
+		nil,
+		make(map[string]*TaskInst)}
+	return &c
+}
+
+func (g *Globals) TaskDefn(name string) *TaskDefn {
+	if g.TaskRegistry != nil {
+		td := g.TaskRegistry[name]
+		if td != nil {
+			return td
+		}
 	}
+	return nil
 }

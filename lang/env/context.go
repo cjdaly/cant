@@ -15,49 +15,62 @@
 
 package env
 
-func Eval(t *TaskInst, c *Context) {
-	td := c.TaskDefn(t.Name())
-	td.Eval(t, c)
-}
+import (
+	"errors"
 
-///
+	out "cantlang.org/cant/output"
+)
 
 type Context struct {
-	TaskRegistry map[string]*TaskDefn
-	Parent       *Context
-	Locals       map[string]*TaskInst
+	G      *Globals
+	Parent *Context
+	Locals map[string]*TaskInst
 }
 
-func NewRootContext(taskRegistry map[string]*TaskDefn) Context {
-	var rc = Context{
-		taskRegistry,
-		nil,
-		make(map[string]*TaskInst)}
-	return rc
-}
-
-func (c Context) NewSubContext() Context {
+func (c *Context) NewContext() *Context {
 	var sc = Context{
-		nil,
-		&c,
+		c.G,
+		c,
 		make(map[string]*TaskInst)}
-	return sc
+	return &sc
 }
 
-func (c Context) IsRoot() bool {
+func (c *Context) IsRoot() bool {
 	return c.Parent == nil
 }
 
-func (c Context) TaskDefn(name string) *TaskDefn {
-	if c.TaskRegistry != nil {
-		td := c.TaskRegistry[name]
-		if td != nil {
-			return td
-		}
+func (c *Context) AddProperty(t *TaskInst) {
+	if t.Name() != "property" {
+		out.LogFatal(errors.New("AddProperty with <" + t.Name() + ">"))
 	}
-	if c.IsRoot() {
-		return nil
+
+	n := t.Attr("name")
+	if n == "" {
+		out.Logln("Ignoring nameless property...")
+	} else if _, found := c.G.Properties[n]; found {
+		out.Logln("Ignoring duplicate property: " + n)
 	} else {
-		return c.Parent.TaskDefn(name)
+		c.G.Properties[n] = t
+		out.Logln("Added property: " + n)
 	}
+}
+
+func (c *Context) AddTarget(t *TaskInst) {
+	if t.Name() != "target" {
+		out.LogFatal(errors.New("AddTarget with <" + t.Name() + ">"))
+	}
+
+	n := t.Attr("name")
+	if n == "" {
+		out.Logln("Ignoring nameless target...")
+	} else if _, found := c.G.Targets[n]; found {
+		out.Logln("Ignoring duplicate target: " + n)
+	} else {
+		c.G.Targets[n] = t
+		out.Logln("Added target: " + n)
+	}
+}
+
+func (c *Context) GetTarget(name string) *TaskInst {
+	return c.G.Targets[name]
 }

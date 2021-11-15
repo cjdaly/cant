@@ -13,18 +13,26 @@
  * limitations under the License.
  */
 
-package tasks
+package env
 
 import (
-	env "cantlang.org/cant/lang/env"
 	out "cantlang.org/cant/output"
 )
 
-var TaskDefn_Echo = env.NewTaskDefn("echo", eval_Echo)
+type Evaluable interface {
+	Eval(t *TaskInst, c *Context)
+}
 
-func eval_Echo(t *env.TaskInst, c *env.Context) {
-	message := t.Attr("message")
-	if message != "" {
-		out.Println(message)
+type Evalable Evaluable
+
+type EvalFunc func(t *TaskInst, c *Context)
+
+func Eval(t *TaskInst, c *Context) {
+	out.Logln("Eval: <" + t.Name() + "> " + t.Attr("name"))
+	td := c.G.TaskDefn(t.Name())
+	if td != nil {
+		td.Eval(t, c)
+	} else {
+		out.Logln("Eval: TaskDefn not found!")
 	}
 }

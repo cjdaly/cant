@@ -1,7 +1,7 @@
 <wont main="main">
     <target name="main">
-        <foo />
-        <foo message="test 123..." />
+        <hello />
+        <hello message="test 123..." />
     </target>
 
     <macro name="hello">
