@@ -9,7 +9,7 @@ Cant is a reimagination of [Apache Ant](https://ant.apache.org/manual/index.html
 * __\<property\>__ - global write-once properties ...
 * __\<local\>__ - ... except when
 * __\<macrodef\>__ - procedural/imperative
-* __\<TaskDefn\>__ - host language extensions
+* __\<taskdef\>__ - host language extensions
 * __\<fileset\>__ - declarative
 * __\<parallel\>__ - concurrency
 * __\<and\>\<or\>\<not\>__ - logic
