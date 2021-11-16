@@ -1,0 +1,16 @@
+<cant main="test">
+    <target name="test2">
+        <echo message="no!" />
+    </target>
+
+    <target name="test">
+        <echo message="test 123..." />
+        <sleep seconds="3" milliseconds="333"/>
+        <echo message="test 456..." />
+    </target>
+
+    <target name="another-test">
+        <echo message="no!" />
+    </target>
+</cant>
+
