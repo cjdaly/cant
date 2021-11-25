@@ -1,0 +1,14 @@
+<cant main="test">
+    <target name="test2">
+        <echo message="no!" />
+    </target>
+
+    <target name="test">
+        <echo message="test 123..." />
+    </target>
+
+    <target name="another-test">
+        <echo message="no!" />
+    </target>
+</cant>
+

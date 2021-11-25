@@ -1,0 +1,6 @@
+<cant>
+    <target name="main">
+        <echo message="Hello World!" />
+    </target>
+</cant>
+

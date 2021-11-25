@@ -18,6 +18,7 @@ package output
 import (
 	"fmt"
 	"log"
+	"strings"
 )
 
 func init() {
@@ -33,5 +34,21 @@ func LogFatal(err error) {
 }
 
 func Println(message string) {
-	fmt.Println(message)
+	if !testing {
+		fmt.Println(message)
+	} else {
+		testOutput.WriteString(message + "\n")
+	}
+}
+
+var testing = false
+var testOutput strings.Builder
+
+func Testing() {
+	testing = true
+	testOutput.Reset()
+}
+
+func TestOutput() string {
+	return string(testOutput.String())
 }
